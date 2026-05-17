@@ -72,7 +72,7 @@ export default function Home() {
           <h2 className="text-5xl md:text-7xl font-bold mb-4">
             Luxury Rewards
           </h2>
-          <p className="text-lg tracking-widest">精選點數兌換商城</p>
+          <p className="text-lg tracking-widest">豪華獎勵兌換平台</p>
         </div>
       </section>
 
