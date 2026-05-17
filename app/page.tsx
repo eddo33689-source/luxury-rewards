@@ -16,9 +16,9 @@ type Product = {
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
-const [search, setSearch] = useState("");
-const [selectedCategory, setSelectedCategory] = useState("全部");
-const [products, setProducts] = useState<Product[]>([]);
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("全部");
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     fetchProducts();
@@ -39,27 +39,27 @@ const [products, setProducts] = useState<Product[]>([]);
     setProducts(data || []);
   }
 
-const categories = [
-  "全部",
-  ...Array.from(
-    new Set(
-      products
-        .map((product) => product.category)
-        .filter(Boolean)
-    )
-  ),
-];
+  const categories: string[] = [
+    "全部",
+    ...Array.from(
+      new Set(
+        products
+          .map((product) => product.category)
+          .filter((category): category is string => Boolean(category))
+      )
+    ),
+  ];
 
-const filteredProducts = products.filter((product) => {
-  const matchesSearch = product.name
-    .toLowerCase()
-    .includes(search.toLowerCase());
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
 
-  const matchesCategory =
-    selectedCategory === "全部" || product.category === selectedCategory;
+    const matchesCategory =
+      selectedCategory === "全部" || product.category === selectedCategory;
 
-  return matchesSearch && matchesCategory;
-});
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <main
@@ -87,7 +87,7 @@ const filteredProducts = products.filter((product) => {
 
         <div className="absolute inset-0 bg-black/40" />
 
-        <div className="relative z-10 text-center text-white">
+        <div className="relative z-10 text-center text-white px-6">
           <h2 className="text-5xl md:text-7xl font-bold mb-4">
             駿賓團隊服務平台
           </h2>
@@ -111,25 +111,27 @@ const filteredProducts = products.filter((product) => {
           />
         </div>
       </section>
-<section className="px-6 md:px-12 pb-8 flex gap-4 overflow-x-auto">
-  {categories.map((cat) => (
-    <button
-      key={cat}
-      onClick={() => setSelectedCategory(cat)}
-      className={`px-5 py-2 rounded-full border whitespace-nowrap transition ${
-        selectedCategory === cat
-          ? "bg-black text-white"
-          : "hover:bg-black hover:text-white"
-      }`}
-    >
-      {cat}
-    </button>
-  ))}
-</section>
+
+      <section className="px-6 md:px-12 pb-8 flex gap-4 overflow-x-auto">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`px-5 py-2 rounded-full border whitespace-nowrap transition ${
+              selectedCategory === cat
+                ? "bg-black text-white"
+                : "hover:bg-black hover:text-white"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </section>
+
       <section className="px-6 md:px-12 pb-20">
         {filteredProducts.length === 0 ? (
           <div className="text-center py-20 opacity-60">
-            目前尚無商品，請到 Supabase 新增商品。
+            目前尚無商品，請到後台新增商品。
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -172,6 +174,12 @@ const filteredProducts = products.filter((product) => {
                       查看
                     </button>
                   </div>
+
+                  {product.description ? (
+                    <p className="mt-4 text-sm opacity-70 line-clamp-2">
+                      {product.description}
+                    </p>
+                  ) : null}
                 </div>
               </div>
             ))}
