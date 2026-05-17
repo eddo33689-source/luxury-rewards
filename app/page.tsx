@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Search, Moon, Sun } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "./lib/supabase";
 
 type Product = {
   id: number;
