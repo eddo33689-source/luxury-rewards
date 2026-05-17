@@ -49,7 +49,7 @@ export default function Home() {
       }`}
     >
       <header className="flex items-center justify-between px-8 py-6 border-b border-gray-300">
-        <h1 className="text-3xl font-bold tracking-widest">LUXURY REWARDS</h1>
+        <h1 className="text-3xl font-bold tracking-widest">駿賓服務團隊</h1>
 
         <button
           onClick={() => setDarkMode(!darkMode)}
