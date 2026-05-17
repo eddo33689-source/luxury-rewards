@@ -70,9 +70,9 @@ export default function Home() {
 
         <div className="relative z-10 text-center text-white">
           <h2 className="text-5xl md:text-7xl font-bold mb-4">
-            Luxury Rewards
+            駿賓團隊服務平台
           </h2>
-          <p className="text-lg tracking-widest">豪華獎勵兌換平台</p>
+          <p className="text-lg tracking-widest">陪伴你的生活大小事</p>
         </div>
       </section>
 
