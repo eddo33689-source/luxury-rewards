@@ -14,6 +14,10 @@ type Product = {
 };
 
 export default function AdminPage() {
+      const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [password, setPassword] = useState("");
+
+  const ADMIN_PASSWORD = "66668888";
   const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState({
     name: "",
@@ -87,7 +91,36 @@ export default function AdminPage() {
     if (error) alert(error.message);
     fetchProducts();
   }
+  if (!isLoggedIn) {
+    return (
+      <main className="min-h-screen bg-[#f8f5f0] flex items-center justify-center p-6">
+        <div className="bg-white rounded-3xl shadow-xl p-8 w-full max-w-sm">
+          <h1 className="text-2xl font-bold mb-6 text-center">管理員登入</h1>
 
+          <input
+            type="password"
+            placeholder="請輸入管理密碼"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border p-3 rounded-xl mb-4"
+          />
+
+          <button
+            onClick={() => {
+              if (password === ADMIN_PASSWORD) {
+                setIsLoggedIn(true);
+              } else {
+                alert("密碼錯誤");
+              }
+            }}
+            className="w-full bg-black text-white py-3 rounded-xl"
+          >
+            登入
+          </button>
+        </div>
+      </main>
+    );
+  }
   return (
     <main className="min-h-screen bg-[#f8f5f0] p-6 text-black">
       <div className="max-w-6xl mx-auto">
