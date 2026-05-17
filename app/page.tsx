@@ -16,8 +16,9 @@ type Product = {
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
-  const [search, setSearch] = useState("");
-  const [products, setProducts] = useState<Product[]>([]);
+const [search, setSearch] = useState("");
+const [selectedCategory, setSelectedCategory] = useState("全部");
+const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     fetchProducts();
@@ -38,9 +39,27 @@ export default function Home() {
     setProducts(data || []);
   }
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(search.toLowerCase())
-  );
+const categories = [
+  "全部",
+  ...Array.from(
+    new Set(
+      products
+        .map((product) => product.category)
+        .filter(Boolean)
+    )
+  ),
+];
+
+const filteredProducts = products.filter((product) => {
+  const matchesSearch = product.name
+    .toLowerCase()
+    .includes(search.toLowerCase());
+
+  const matchesCategory =
+    selectedCategory === "全部" || product.category === selectedCategory;
+
+  return matchesSearch && matchesCategory;
+});
 
   return (
     <main
@@ -75,16 +94,7 @@ export default function Home() {
           <p className="text-lg tracking-widest">陪伴你的生活大小事</p>
         </div>
       </section>
-<section className="px-6 md:px-12 pb-8 flex gap-4 overflow-x-auto">
-  {["全部", "電子產品", "禮券", "生活用品", "精品"].map((cat) => (
-    <button
-      key={cat}
-      className="px-5 py-2 rounded-full border hover:bg-black hover:text-white transition"
-    >
-      {cat}
-    </button>
-  ))}
-</section>
+
       <section className="px-6 md:px-12 py-10">
         <div className="max-w-xl mx-auto relative">
           <Search
@@ -101,7 +111,21 @@ export default function Home() {
           />
         </div>
       </section>
-
+<section className="px-6 md:px-12 pb-8 flex gap-4 overflow-x-auto">
+  {categories.map((cat) => (
+    <button
+      key={cat}
+      onClick={() => setSelectedCategory(cat)}
+      className={`px-5 py-2 rounded-full border whitespace-nowrap transition ${
+        selectedCategory === cat
+          ? "bg-black text-white"
+          : "hover:bg-black hover:text-white"
+      }`}
+    >
+      {cat}
+    </button>
+  ))}
+</section>
       <section className="px-6 md:px-12 pb-20">
         {filteredProducts.length === 0 ? (
           <div className="text-center py-20 opacity-60">
